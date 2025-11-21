@@ -134,9 +134,18 @@
 .hand {
     display: flex;
     gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-wrap: nowrap;
+    /* Prevent wrapping */
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+    justify-content: flex-start;
+    /* Align start for scrolling */
     margin-top: 1rem;
+    padding-bottom: 10px;
+    /* Space for scrollbar */
+    max-width: 100%;
+    width: fit-content;
+    /* Allow centering when smaller than container */
 }
 
 .card {
@@ -153,6 +162,8 @@
     /* Cards need readable font */
     position: relative;
     box-shadow: 2px 2px 0px var(--retro-shadow);
+    flex-shrink: 0;
+    /* Prevent cards from shrinking */
 }
 
 .card.red {
@@ -168,4 +179,42 @@
     color: yellow;
     font-size: 0.8rem;
     text-align: center;
+}
+
+/* Mobile Optimization */
+@media (max-width: 600px) {
+    .game-container {
+        padding: 0.5rem;
+    }
+
+    .center-area {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .selection-grid {
+        gap: 1px;
+    }
+
+    .grid-cell {
+        width: 20px;
+        height: 25px;
+        font-size: 8px;
+    }
+
+    .deck-area {
+        width: 100%;
+        flex-direction: row;
+        gap: 1rem;
+        height: auto;
+    }
+
+    .deck {
+        width: 60px;
+        height: 84px;
+    }
+
+    .deck-count {
+        margin-top: 0;
+    }
 }
