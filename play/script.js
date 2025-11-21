@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cell.textContent = `${r}${suitSymbols[s]}`;
 
                 // Interaction
-                cell.addEventListener('mousedown', (e) => {
+                const startDrag = (e) => {
                     isDragging = true;
                     dragStart = { r: rowIdx, c: colIdx };
                     dragCurrent = { r: rowIdx, c: colIdx };
@@ -125,8 +125,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     updatePreview();
                     ignoreClick = true;
-                    e.preventDefault();
-                });
+                    if (e.type === 'touchstart') e.preventDefault(); // Prevent scroll
+                };
+
+                cell.addEventListener('mousedown', startDrag);
+                cell.addEventListener('touchstart', startDrag, { passive: false });
 
                 cell.addEventListener('click', (e) => {
                     if (ignoreClick) {
@@ -141,25 +144,22 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Global mouse move to handle dragging outside the grid
-        document.addEventListener('mousemove', (e) => {
+        // Global mouse/touch move
+        const handleMove = (e) => {
             if (!isDragging) return;
 
-            // Calculate cell under mouse
-            // We need the grid's bounding rect and cell dimensions
-            // Or simpler: use document.elementFromPoint? 
-            // elementFromPoint might return the grid container or body if outside.
-            // Better: Calculate relative position.
+            let clientX, clientY;
+            if (e.type.startsWith('touch')) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
 
             const gridRect = selectionGridEl.getBoundingClientRect();
-
-            // Grid is 13 cols x 4 rows.
-            // We can estimate the cell width/height or just clamp based on percentage?
-            // Actually, we know the grid layout.
-            // Let's assume uniform cell sizes.
-
-            const relativeX = e.clientX - gridRect.left;
-            const relativeY = e.clientY - gridRect.top;
+            const relativeX = clientX - gridRect.left;
+            const relativeY = clientY - gridRect.top;
 
             const cellWidth = gridRect.width / 13;
             const cellHeight = gridRect.height / 4;
@@ -175,15 +175,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 dragCurrent = { r: row, c: col };
                 updatePreview();
             }
-        });
+        };
 
-        document.addEventListener('mouseup', () => {
+        document.addEventListener('mousemove', handleMove);
+        document.addEventListener('touchmove', handleMove, { passive: false });
+
+        const endDrag = () => {
             if (isDragging) {
                 applyBoxSelection();
                 isDragging = false;
                 clearPreview();
             }
-        });
+        };
+
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchend', endDrag);
     }
 
     function updatePreview() {
