@@ -1,0 +1,171 @@
+.game-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.dealer-area,
+.player-area {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border: 2px solid var(--retro-text);
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hand-rank {
+    font-size: 0.8rem;
+    color: yellow;
+    margin-left: 1rem;
+    text-transform: uppercase;
+}
+
+.center-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    padding: 1rem 0;
+}
+
+.controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.selection-grid {
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    gap: 2px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    border: 2px solid var(--retro-text);
+    user-select: none;
+    /* Prevent text selection during drag */
+}
+
+.grid-cell {
+    width: 30px;
+    height: 35px;
+    background-color: #333;
+    border: 1px solid #555;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    cursor: pointer;
+    color: #888;
+}
+
+.grid-cell.selected {
+    background-color: var(--retro-text);
+    color: var(--retro-shadow);
+    border-color: var(--retro-text);
+}
+
+.grid-cell.red {
+    color: #ff6b6b;
+}
+
+.grid-cell.selected.red {
+    color: #b22222;
+    /* Darker red on white background */
+}
+
+.grid-cell.preview-selected {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: #fff;
+}
+
+.grid-cell:hover {
+    border-color: #fff;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.deck-area {
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.deck {
+    width: 80px;
+    height: 112px;
+    background-color: #fff;
+    border-radius: 5px;
+    position: relative;
+    box-shadow: 4px 4px 0px var(--retro-shadow);
+}
+
+.deck-count {
+    margin-top: 15px;
+}
+
+.card-back {
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(45deg,
+            #b22222,
+            #b22222 10px,
+            #fff 10px,
+            #fff 20px);
+    border-radius: 5px;
+    border: 2px solid #fff;
+    box-sizing: border-box;
+}
+
+.hand {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.card {
+    width: 60px;
+    height: 84px;
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-family: sans-serif;
+    /* Cards need readable font */
+    position: relative;
+    box-shadow: 2px 2px 0px var(--retro-shadow);
+}
+
+.card.red {
+    color: red;
+}
+
+.card.black {
+    color: black;
+}
+
+.message {
+    min-height: 1.5rem;
+    color: yellow;
+    font-size: 0.8rem;
+    text-align: center;
+}
